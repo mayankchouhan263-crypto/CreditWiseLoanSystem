@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CreditWise — Loan Intelligence</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'style.css' %}"/>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">Credit<span>Wise</span></div>
+    <div class="nav-pills">
+      <button class="pill active" onclick="showPage('pred', this)">Loan Predictor</button>
+      <button class="pill"        onclick="showPage('emi',  this)">EMI Calculator</button>
+    </div>
+  </nav>
+
+  <!-- PREDICTOR PAGE -->
+  <div id="pred" class="page active">
+    <div class="hero">
+      <span class="badge">◆ AI-Powered Credit Intelligence</span>
+      <h1>Know Your <em>Approval Odds</em><br/>Before You Apply</h1>
+      <p>Your trained logistic regression model predicts loan approval probability in real time.</p>
+    </div>
+
+    <div class="container">
+      <div class="two-col">
+
+        <div class="card">
+          <div class="card-head">
+            <div class="ic ic-gold">👤</div>
+            <div>
+              <div class="card-title">Your Financial Profile</div>
+              <div class="card-sub">All data stays on your machine — nothing is sent externally</div>
+            </div>
+          </div>
+
+          <div class="section-divider">Income & Personal</div>
+          <div class="row2">
+            <div class="field">
+              <label>Applicant Income (₹ / month)</label>
+              <div class="pfx"><span>₹</span>
+                <input type="number" id="applicantIncome" value="100000" min="0" oninput="calcDTI()"/>
+              </div>
+              <span class="field-hint">e.g. ₹1,00,000 per month</span>
+            </div>
+            <div class="field">
+              <label>Co-applicant Income (₹ / month)</label>
+              <div class="pfx"><span>₹</span>
+                <input type="number" id="coapplicantIncome" value="0" min="0"/>
+              </div>
+              <span class="field-hint">Enter 0 if none</span>
+            </div>
+          </div>
+
+          <div class="row2">
+            <div class="field">
+              <label>Age</label>
+              <input type="number" id="age" value="35" min="21" max="65"/>
+            </div>
+            <div class="field">
+              <label>Number of Dependents</label>
+              <input type="number" id="dependents" value="1" min="0" max="4"/>
+            </div>
+          </div>
+
+          <div class="row2">
+            <div class="field">
+              <label>Savings (₹)</label>
+              <div class="pfx"><span>₹</span>
+                <input type="number" id="savings" value="300000" min="0"/>
+              </div>
+              <span class="field-hint">e.g. ₹3,00,000</span>
+            </div>
+            <div class="field">
+              <label>Collateral Value (₹)</label>
+              <div class="pfx"><span>₹</span>
+                <input type="number" id="collateralValue" value="5000000" min="0"/>
+              </div>
+              <span class="field-hint">e.g. ₹50,00,000 property value</span>
+            </div>
+          </div>
+
+          <div class="section-divider">Loan Details</div>
+          <div class="row2">
+            <div class="field">
+              <label>Loan Amount (₹)</label>
+              <div class="pfx"><span>₹</span>
+                <input type="number" id="loanAmount" value="2000000" min="0"/>
+              </div>
+              <span class="field-hint">e.g. ₹20,00,000</span>
+            </div>
+            <div class="field">
+              <label>Loan Term (Months)</label>
+              <input type="number" id="loanTerm" value="60" min="6" max="360"/>
+            </div>
+          </div>
+
+          <div class="row2">
+            <div class="field">
+              <label>Loan Purpose</label>
+              <select id="loanPurpose">
+                <option value="car">Car</option>
+                <option value="education">Education</option>
+                <option value="home">Home</option>
+                <option value="personal" selected>Personal</option>
+                <option value="business">Business</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Property Area</label>
+              <select id="propertyArea">
+                <option value="rural">Rural</option>
+                <option value="semiurban">Semi-Urban</option>
+                <option value="urban" selected>Urban</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="section-divider">Credit Profile</div>
+          <div class="field slider-field">
+            <div class="slider-header">
+              <label>Credit Score</label>
+              <span class="slider-val" id="csDisplay">700</span>
+            </div>
+            <input type="range" id="creditScore" class="slider" min="300" max="900" value="700"
+              oninput="syncSlider(this, 'csDisplay', '')"/>
+            <div class="slider-ticks">
+              <span>300 (Poor)</span><span>600 (Fair)</span><span>900 (Excellent)</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Existing Loans</label>
+            <input type="number" id="existingLoans" value="0" min="0" max="6"/>
+          </div>
+
+          <div class="dti-calculator">
+            <div class="dti-calc-title">📊 Debt-to-Income Calculator</div>
+            <div class="dti-calc-sub">We calculate your DTI automatically — just enter your monthly debt payments</div>
+            <div class="row2" style="margin-top:14px;">
+              <div class="field">
+                <label>Monthly Income (₹)</label>
+                <div class="pfx"><span>₹</span>
+                  <input type="number" id="monthlyIncome" placeholder="Auto from above" min="0" oninput="calcDTI()"/>
+                </div>
+                <span class="field-hint">Leave blank to use Applicant Income</span>
+              </div>
+              <div class="field">
+                <label>Monthly Debt Payments (₹)</label>
+                <div class="pfx"><span>₹</span>
+                  <input type="number" id="monthlyDebt" value="25000" min="0" oninput="calcDTI()"/>
+                </div>
+                <span class="field-hint">All current EMIs + loan payments</span>
+              </div>
+            </div>
+            <div class="dti-result-row">
+              <div>
+                <div class="dti-result-label">Your DTI Ratio</div>
+                <div class="dti-result-hint" id="dtiHint">Enter your monthly debt to calculate</div>
+              </div>
+              <div class="dti-badge" id="dtiBadge">—</div>
+            </div>
+          </div>
+
+          <div class="section-divider">Employment & Background</div>
+          <div class="row2">
+            <div class="field">
+              <label>Employment Status</label>
+              <select id="employmentStatus">
+                <option value="salaried" selected>Salaried</option>
+                <option value="contract">Contract</option>
+                <option value="self-employed">Self-Employed</option>
+                <option value="unemployed">Unemployed</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Employer Category</label>
+              <select id="employerCategory">
+                <option value="government">Government</option>
+                <option value="mnc">MNC</option>
+                <option value="private" selected>Private</option>
+                <option value="business">Business</option>
+                <option value="unemployed">Unemployed</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row2">
+            <div class="field">
+              <label>Education Level</label>
+              <select id="educationLevel">
+                <option value="0" selected>Graduate</option>
+                <option value="1">Not Graduate</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Marital Status</label>
+              <select id="maritalStatus">
+                <option value="married" selected>Married</option>
+                <option value="single">Single</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row2">
+            <div class="field">
+              <label>Gender</label>
+              <select id="gender">
+                <option value="male" selected>Male</option>
+                <option value="female">Female</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="predError" class="error-msg" style="display:none;"></div>
+          <button class="btn-primary" id="predictBtn" onclick="runPrediction()">
+            ⚡ Check Approval Probability
+          </button>
+        </div>
+
+        <!-- RESULT PANEL -->
+        <div class="result-panel" id="resultPanel">
+          <div class="rp-title">📊 Prediction Result</div>
+          <div class="placeholder" id="placeholder">
+            <div class="placeholder-icon">🔮</div>
+            <p>Fill in your details and click <strong>Check Approval Probability</strong> to see your result.</p>
+          </div>
+          <div id="resultContent" style="display:none;">
+            <div class="ring-section">
+              <div class="ring-wrapper">
+                <svg class="ring-svg" viewBox="0 0 160 160">
+                  <circle class="ring-track" cx="80" cy="80" r="68"/>
+                  <circle class="ring-fill"  cx="80" cy="80" r="68" id="ringArc"/>
+                </svg>
+                <div class="ring-center">
+                  <div class="ring-pct" id="ringPct">0<span>%</span></div>
+                  <div class="ring-label">approval odds</div>
+                </div>
+              </div>
+              <div class="verdict" id="verdictText">—</div>
+            </div>
+            <div style="margin-top:20px;">
+              <div class="section-label">Key Factors</div>
+              <div id="factorBars"></div>
+            </div>
+            <div class="dti-row">
+              <div>
+                <div class="dti-name">Debt-to-Income Ratio</div>
+                <div class="dti-hint-text">Lower is better — ideal below 35%</div>
+              </div>
+              <div class="dti-val" id="dtiValue">—</div>
+            </div>
+            <div id="tipsContainer" style="margin-top:4px;"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- EMI PAGE -->
+  <div id="emi" class="page">
+    <div class="hero">
+      <span class="badge">◆ Smart EMI Planning</span>
+      <h1>Calculate Your <em>Monthly EMI</em><br/>with Full Breakdown</h1>
+      <p>Choose between reducing balance, flat rate, or compound interest methods.</p>
+    </div>
+    <div class="container">
+      <div class="two-col" style="margin-bottom:24px;">
+
+        <div class="card">
+          <div class="card-head">
+            <div class="ic ic-teal">🧮</div>
+            <div>
+              <div class="card-title">Loan Parameters</div>
+              <div class="card-sub">Adjust sliders for instant updates</div>
+            </div>
+          </div>
+          <div class="field slider-field">
+            <div class="slider-header">
+              <label>Loan Amount</label>
+              <span class="slider-val" id="eAmtDisplay">₹5,00,000</span>
+            </div>
+            <input type="range" id="eAmt" class="slider"
+              min="10000" max="50000000" step="10000" value="500000"
+              oninput="syncEmiSlider(this,'eAmtDisplay',true); calcEmi()"/>
+            <div class="slider-ticks"><span>₹10K</span><span>₹2.5Cr</span><span>₹5Cr</span></div>
+          </div>
+          <div class="field slider-field">
+            <div class="slider-header">
+              <label>Annual Interest Rate</label>
+              <span class="slider-val" id="eRateDisplay">10.5%</span>
+            </div>
+            <input type="range" id="eRate" class="slider"
+              min="1" max="36" step="0.5" value="10.5"
+              oninput="syncEmiSlider(this,'eRateDisplay',false,1,'%'); calcEmi()"/>
+            <div class="slider-ticks"><span>1%</span><span>18%</span><span>36%</span></div>
+          </div>
+          <div class="field slider-field">
+            <div class="slider-header">
+              <label>Tenure</label>
+              <span class="slider-val" id="eTenDisplay">36 months</span>
+            </div>
+            <input type="range" id="eTen" class="slider"
+              min="6" max="360" step="6" value="36"
+              oninput="syncEmiSlider(this,'eTenDisplay',false,0,' months'); calcEmi()"/>
+            <div class="slider-ticks"><span>6m</span><span>15yr</span><span>30yr</span></div>
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label>Interest Type</label>
+              <select id="interestType" onchange="calcEmi()">
+                <option value="reducing">Reducing Balance</option>
+                <option value="flat">Flat Rate</option>
+                <option value="compound">Compound Interest</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Processing Fee (%)</label>
+              <input type="number" id="eProcFee" value="1" min="0" max="10" step="0.1" oninput="calcEmi()"/>
+            </div>
+          </div>
+          <div class="field">
+            <label>Monthly Prepayment (₹)</label>
+            <div class="pfx"><span>₹</span>
+              <input type="number" id="ePrepay" value="0" min="0" oninput="calcEmi()"/>
+            </div>
+          </div>
+          <div id="emiError" class="error-msg" style="display:none;"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <div class="ic ic-gold">💰</div>
+            <div>
+              <div class="card-title">EMI Summary</div>
+              <div class="card-sub" id="emiMethodLabel">Reducing balance method</div>
+            </div>
+          </div>
+          <div id="interestNote" class="info-note" style="display:none;"></div>
+          <div id="prepayNote"   class="warn-note" style="display:none;"></div>
+          <div class="emi-table">
+            <div class="emi-row"><span class="emi-label">Monthly EMI</span><span class="emi-value gold big" id="eEmi">₹0</span></div>
+            <div class="emi-row"><span class="emi-label">Principal Amount</span><span class="emi-value" id="ePrin">₹0</span></div>
+            <div class="emi-row"><span class="emi-label">Total Interest</span><span class="emi-value red" id="eInterest">₹0</span></div>
+            <div class="emi-row"><span class="emi-label">Processing Fee</span><span class="emi-value" id="eProcAmt">₹0</span></div>
+            <div class="emi-row"><span class="emi-label">Total Cost of Loan</span><span class="emi-value teal" id="eTotal">₹0</span></div>
+            <div class="emi-row"><span class="emi-label">Effective Tenure</span><span class="emi-value" id="eEffTen">—</span></div>
+          </div>
+          <div class="donut-wrap">
+            <svg class="donut-svg" viewBox="0 0 160 160">
+              <circle class="donut-track"     cx="80" cy="80" r="58"/>
+              <circle class="donut-principal" cx="80" cy="80" r="58" id="dPrincipal"/>
+              <circle class="donut-interest"  cx="80" cy="80" r="58" id="dInterest"/>
+            </svg>
+            <div class="donut-legend">
+              <div class="legend-item"><span class="dot green-dot"></span>Principal</div>
+              <div class="legend-item"><span class="dot red-dot"></span>Interest</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div class="ic ic-teal">📋</div>
+          <div>
+            <div class="card-title">Amortization Schedule</div>
+            <div class="card-sub">Year-by-year repayment breakdown</div>
+          </div>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Year</th><th>Opening Balance</th><th>Principal Paid</th>
+                <th>Interest Paid</th><th>Total Paid</th><th>Closing Balance</th>
+              </tr>
+            </thead>
+            <tbody id="amortBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="{% static 'script.js' %}"></script>
+  <script>window.CSRF_TOKEN = '{{ csrf_token }}';</script>
+</body>
+</html>

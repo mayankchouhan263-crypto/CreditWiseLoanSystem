@@ -1,0 +1,912 @@
+/* ═══════════════════════════════════════════════
+   CreditWise — style.css
+   Dark luxury theme with gold & teal accents
+═══════════════════════════════════════════════ */
+
+:root {
+  --bg:           #080d18;
+  --bg2:          #0e1525;
+  --card:         #111827;
+  --card-h:       #141f33;
+  --border:       rgba(255, 255, 255, 0.07);
+  --border-h:     rgba(255, 255, 255, 0.13);
+  --gold:         #c9a84c;
+  --gold2:        #e8c96a;
+  --gold-glow:    rgba(201, 168, 76, 0.15);
+  --teal:         #2dd4bf;
+  --teal-glow:    rgba(45, 212, 191, 0.12);
+  --text:         #e2e8f0;
+  --muted:        #7c8a9e;
+  --dim:          #3a4557;
+  --green:        #34d399;
+  --red:          #f87171;
+  --amber:        #fbbf24;
+  --orange:       #fb923c;
+  --radius:       14px;
+  --radius-sm:    9px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin:     0;
+  padding:    0;
+}
+
+body {
+  font-family:      'DM Sans', sans-serif;
+  background-color: var(--bg);
+  color:            var(--text);
+  min-height:       100vh;
+  overflow-x:       hidden;
+}
+
+body::before {
+  content:    '';
+  position:   fixed;
+  inset:      0;
+  background:
+    radial-gradient(ellipse 70% 50% at 5%   0%,   rgba(201, 168, 76,  0.06) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 70% at 95% 100%,  rgba(45,  212, 191, 0.05) 0%, transparent 55%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+
+/* ── Navigation ─────────────────────────────────────── */
+
+nav {
+  position:        sticky;
+  top:             0;
+  z-index:         200;
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  padding:         15px 48px;
+  background:      rgba(8, 13, 24, 0.92);
+  backdrop-filter: blur(22px);
+  border-bottom:   1px solid var(--border);
+}
+
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size:   1.45rem;
+  font-weight: 700;
+  color:       #fff;
+  letter-spacing: -0.5px;
+}
+
+.logo span {
+  color: var(--gold);
+}
+
+.nav-pills {
+  display: flex;
+  gap:     6px;
+}
+
+.pill {
+  padding:       8px 22px;
+  border-radius: 50px;
+  font-family:   'DM Sans', sans-serif;
+  font-size:     0.85rem;
+  font-weight:   500;
+  cursor:        pointer;
+  color:         var(--muted);
+  background:    transparent;
+  border:        1px solid transparent;
+  transition:    all 0.2s;
+}
+
+.pill:hover {
+  color:        var(--text);
+  border-color: var(--border);
+}
+
+.pill.active {
+  color:        #080d18;
+  background:   var(--gold);
+  border-color: var(--gold);
+  font-weight:  600;
+}
+
+
+/* ── Pages ──────────────────────────────────────────── */
+
+.page {
+  display:  none;
+  position: relative;
+  z-index:  1;
+}
+
+.page.active {
+  display: block;
+}
+
+
+/* ── Hero ───────────────────────────────────────────── */
+
+.hero {
+  text-align: center;
+  padding:    72px 24px 52px;
+}
+
+.badge {
+  display:         inline-flex;
+  align-items:     center;
+  gap:             7px;
+  padding:         5px 16px;
+  border-radius:   50px;
+  border:          1px solid rgba(201, 168, 76, 0.30);
+  background:      rgba(201, 168, 76, 0.07);
+  font-size:       0.72rem;
+  font-weight:     600;
+  color:           var(--gold2);
+  letter-spacing:  0.6px;
+  text-transform:  uppercase;
+  margin-bottom:   22px;
+}
+
+h1 {
+  font-family:    'Playfair Display', serif;
+  font-size:      clamp(2.2rem, 4.5vw, 3.4rem);
+  font-weight:    700;
+  line-height:    1.1;
+  letter-spacing: -1.5px;
+  color:          #fff;
+  margin-bottom:  16px;
+}
+
+h1 em {
+  font-style:                italic;
+  background:                linear-gradient(135deg, var(--gold), var(--gold2));
+  -webkit-background-clip:   text;
+  -webkit-text-fill-color:   transparent;
+  background-clip:           text;
+}
+
+.hero p {
+  font-size:   1rem;
+  color:       var(--muted);
+  max-width:   480px;
+  margin:      0 auto;
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+
+/* ── Layout ─────────────────────────────────────────── */
+
+.container {
+  max-width: 1180px;
+  margin:    0 auto;
+  padding:   0 24px 80px;
+}
+
+.two-col {
+  display:               grid;
+  grid-template-columns: 1fr 400px;
+  gap:                   24px;
+  align-items:           start;
+}
+
+
+/* ── Cards ──────────────────────────────────────────── */
+
+.card {
+  background:    var(--card);
+  border:        1px solid var(--border);
+  border-radius: var(--radius);
+  padding:       28px 30px;
+  transition:    border-color 0.2s;
+  animation:     fadeUp 0.45s ease both;
+}
+
+.card:hover {
+  border-color: var(--border-h);
+}
+
+.card-head {
+  display:       flex;
+  align-items:   flex-start;
+  gap:           12px;
+  margin-bottom: 24px;
+}
+
+.ic {
+  width:         36px;
+  height:        36px;
+  border-radius: 10px;
+  flex-shrink:   0;
+  display:       flex;
+  align-items:   center;
+  justify-content: center;
+  font-size:     1rem;
+  margin-top:    2px;
+}
+
+.ic-gold { background: var(--gold-glow); }
+.ic-teal { background: var(--teal-glow); }
+
+.card-title {
+  font-family: 'Playfair Display', serif;
+  font-size:   1.08rem;
+  font-weight: 600;
+  color:       #fff;
+}
+
+.card-sub {
+  font-size:  0.77rem;
+  color:      var(--dim);
+  margin-top: 3px;
+}
+
+
+/* ── Section dividers ───────────────────────────────── */
+
+.section-divider {
+  font-size:      0.70rem;
+  font-weight:    700;
+  color:          var(--gold);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  padding:        14px 0 10px;
+  border-bottom:  1px solid var(--border);
+  margin-bottom:  16px;
+}
+
+
+/* ── Form fields ────────────────────────────────────── */
+
+.row2 {
+  display:               grid;
+  grid-template-columns: 1fr 1fr;
+  gap:                   14px;
+  margin-bottom:         16px;
+}
+
+.field {
+  display:        flex;
+  flex-direction: column;
+  gap:            7px;
+  margin-bottom:  4px;
+}
+
+label {
+  font-size:      0.72rem;
+  font-weight:    600;
+  color:          var(--muted);
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+input[type="number"],
+input[type="text"],
+select {
+  background:   rgba(255, 255, 255, 0.04);
+  border:       1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color:        var(--text);
+  font-family:  'DM Sans', sans-serif;
+  font-size:    0.88rem;
+  padding:      11px 14px;
+  outline:      none;
+  width:        100%;
+  -webkit-appearance: none;
+  transition:   border-color 0.2s, background 0.2s;
+}
+
+input[type="number"]:focus,
+input[type="text"]:focus,
+select:focus {
+  border-color: rgba(201, 168, 76, 0.50);
+  background:   rgba(201, 168, 76, 0.04);
+}
+
+select option {
+  background: var(--bg2);
+}
+
+.pfx {
+  position: relative;
+}
+
+.pfx span {
+  position:    absolute;
+  left:        13px;
+  top:         50%;
+  transform:   translateY(-50%);
+  color:       var(--gold);
+  font-size:   0.85rem;
+  font-weight: 600;
+  font-family: 'DM Mono', monospace;
+  pointer-events: none;
+}
+
+.pfx input {
+  padding-left: 28px;
+}
+
+.field-hint {
+  font-size:  0.70rem;
+  color:      var(--dim);
+  margin-top: -2px;
+}
+
+
+/* ── Sliders ────────────────────────────────────────── */
+
+.slider-field {
+  margin-bottom: 20px;
+}
+
+.slider-header {
+  display:         flex;
+  justify-content: space-between;
+  align-items:     center;
+  margin-bottom:   10px;
+}
+
+.slider-val {
+  font-family:   'DM Mono', monospace;
+  font-size:     0.82rem;
+  color:         var(--gold2);
+  background:    var(--gold-glow);
+  padding:       3px 10px;
+  border-radius: 6px;
+}
+
+.slider {
+  -webkit-appearance: none;
+  appearance:  none;
+  width:       100%;
+  height:      4px;
+  padding:     0;
+  border:      none;
+  border-radius: 10px;
+  cursor:      pointer;
+  background:  linear-gradient(
+    to right,
+    var(--gold) 0%,
+    var(--gold) var(--pct, 50%),
+    rgba(255, 255, 255, 0.08) var(--pct, 50%),
+    rgba(255, 255, 255, 0.08) 100%
+  );
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width:        18px;
+  height:       18px;
+  border-radius: 50%;
+  background:   var(--gold);
+  box-shadow:   0 0 0 4px rgba(201, 168, 76, 0.20);
+  cursor:       pointer;
+  transition:   box-shadow 0.2s;
+}
+
+.slider::-webkit-slider-thumb:hover {
+  box-shadow: 0 0 0 8px rgba(201, 168, 76, 0.18);
+}
+
+.slider-ticks {
+  display:         flex;
+  justify-content: space-between;
+  font-size:       0.67rem;
+  color:           var(--dim);
+  margin-top:      5px;
+  padding:         0 1px;
+}
+
+
+/* ── DTI Calculator box ─────────────────────────────── */
+
+.dti-calculator {
+  background:    rgba(201, 168, 76, 0.04);
+  border:        1px solid rgba(201, 168, 76, 0.18);
+  border-radius: var(--radius-sm);
+  padding:       16px 18px;
+  margin-bottom: 6px;
+}
+
+.dti-calc-title {
+  font-size:   0.82rem;
+  font-weight: 600;
+  color:       var(--gold2);
+  margin-bottom: 4px;
+}
+
+.dti-calc-sub {
+  font-size:   0.74rem;
+  color:       var(--dim);
+  line-height: 1.5;
+}
+
+.dti-result-row {
+  display:         flex;
+  justify-content: space-between;
+  align-items:     center;
+  background:      rgba(255, 255, 255, 0.03);
+  border:          1px solid var(--border);
+  border-radius:   var(--radius-sm);
+  padding:         12px 14px;
+  margin-top:      12px;
+}
+
+.dti-result-label {
+  font-size:   0.80rem;
+  color:       var(--muted);
+  font-weight: 600;
+}
+
+.dti-result-hint {
+  font-size:  0.71rem;
+  color:      var(--dim);
+  margin-top: 3px;
+}
+
+.dti-badge {
+  font-family: 'DM Mono', monospace;
+  font-size:   1.15rem;
+  font-weight: 500;
+  color:       var(--gold2);
+  transition:  color 0.3s;
+}
+
+
+/* ── Buttons ────────────────────────────────────────── */
+
+.btn-primary {
+  width:         100%;
+  padding:       14px;
+  border-radius: var(--radius-sm);
+  border:        none;
+  background:    linear-gradient(135deg, var(--gold), var(--gold2));
+  color:         #080d18;
+  font-family:   'DM Sans', sans-serif;
+  font-size:     0.92rem;
+  font-weight:   700;
+  cursor:        pointer;
+  margin-top:    22px;
+  transition:    opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+  box-shadow:    0 6px 22px rgba(201, 168, 76, 0.25);
+}
+
+.btn-primary:hover {
+  opacity:    0.90;
+  transform:  translateY(-1px);
+  box-shadow: 0 10px 30px rgba(201, 168, 76, 0.32);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-primary:disabled {
+  opacity:   0.55;
+  cursor:    not-allowed;
+  transform: none;
+}
+
+
+/* ── Notices ────────────────────────────────────────── */
+
+.error-msg {
+  margin-top:    14px;
+  padding:       11px 14px;
+  border-radius: var(--radius-sm);
+  background:    rgba(248, 113, 113, 0.10);
+  border:        1px solid rgba(248, 113, 113, 0.25);
+  color:         var(--red);
+  font-size:     0.80rem;
+  line-height:   1.5;
+}
+
+.info-note {
+  margin-bottom:  12px;
+  padding:        10px 14px;
+  background:     rgba(45, 212, 191, 0.07);
+  border:         1px solid rgba(45, 212, 191, 0.22);
+  border-left:    3px solid var(--teal);
+  border-radius:  0 var(--radius-sm) var(--radius-sm) 0;
+  color:          var(--teal);
+  font-size:      0.77rem;
+  line-height:    1.6;
+}
+
+.warn-note {
+  margin-bottom:  8px;
+  padding:        9px 14px;
+  background:     rgba(251, 191, 36, 0.07);
+  border:         1px solid rgba(251, 191, 36, 0.22);
+  border-left:    3px solid var(--amber);
+  border-radius:  0 var(--radius-sm) var(--radius-sm) 0;
+  color:          var(--amber);
+  font-size:      0.75rem;
+  line-height:    1.5;
+}
+
+
+/* ── Result Panel ───────────────────────────────────── */
+
+.result-panel {
+  background:    var(--card);
+  border:        1px solid var(--border);
+  border-radius: var(--radius);
+  padding:       28px;
+  display:       flex;
+  flex-direction: column;
+  gap:           20px;
+  position:      sticky;
+  top:           84px;
+  animation:     fadeUp 0.5s ease both;
+}
+
+.result-panel:hover {
+  border-color: var(--border-h);
+}
+
+.rp-title {
+  font-family: 'Playfair Display', serif;
+  font-size:   1.05rem;
+  font-weight: 600;
+  color:       #fff;
+}
+
+.placeholder {
+  display:        flex;
+  flex-direction: column;
+  align-items:    center;
+  justify-content: center;
+  gap:            14px;
+  padding:        52px 24px;
+  text-align:     center;
+}
+
+.placeholder-icon {
+  font-size: 2.8rem;
+  opacity:   0.20;
+}
+
+.placeholder p {
+  font-size:   0.82rem;
+  color:       var(--dim);
+  line-height: 1.65;
+  max-width:   220px;
+}
+
+.placeholder p strong {
+  color: var(--muted);
+}
+
+
+/* ── Probability Ring ───────────────────────────────── */
+
+.ring-section {
+  display:        flex;
+  flex-direction: column;
+  align-items:    center;
+  gap:            12px;
+  padding:        24px 0 18px;
+  border-radius:  12px;
+  background:     rgba(255, 255, 255, 0.02);
+  border:         1px solid var(--border);
+}
+
+.ring-wrapper {
+  position: relative;
+  width:    154px;
+  height:   154px;
+}
+
+.ring-svg {
+  width:     154px;
+  height:    154px;
+  transform: rotate(-90deg);
+  overflow:  visible;
+}
+
+.ring-track {
+  fill:         none;
+  stroke:       rgba(255, 255, 255, 0.06);
+  stroke-width: 10;
+}
+
+.ring-fill {
+  fill:                none;
+  stroke-width:        10;
+  stroke-linecap:      round;
+  stroke-dasharray:    427;
+  stroke-dashoffset:   427;
+  stroke:              var(--gold);
+  transition:          stroke-dashoffset 1.1s cubic-bezier(0.17, 0.67, 0.30, 1), stroke 0.4s;
+}
+
+.ring-center {
+  position:        absolute;
+  inset:           0;
+  display:         flex;
+  flex-direction:  column;
+  align-items:     center;
+  justify-content: center;
+}
+
+.ring-pct {
+  font-family: 'DM Mono', monospace;
+  font-size:   1.95rem;
+  font-weight: 500;
+  color:       #fff;
+  line-height: 1;
+}
+
+.ring-pct span {
+  font-size: 0.9rem;
+  opacity:   0.5;
+}
+
+.ring-label {
+  font-size:      0.63rem;
+  color:          var(--dim);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-top:     4px;
+}
+
+.verdict {
+  font-family: 'Playfair Display', serif;
+  font-size:   1.05rem;
+  font-weight: 600;
+}
+
+
+/* ── Factor Bars ────────────────────────────────────── */
+
+.section-label {
+  font-size:      0.71rem;
+  font-weight:    600;
+  color:          var(--dim);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom:  12px;
+}
+
+.factor-row {
+  display:     flex;
+  align-items: center;
+  gap:         10px;
+  margin-bottom: 10px;
+}
+
+.factor-name {
+  font-size:  0.78rem;
+  color:      var(--muted);
+  min-width:  110px;
+}
+
+.factor-track {
+  flex:          1;
+  height:        4px;
+  background:    rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  overflow:      hidden;
+}
+
+.factor-bar {
+  height:        100%;
+  border-radius: 10px;
+  transition:    width 0.9s ease;
+}
+
+.factor-score {
+  font-family: 'DM Mono', monospace;
+  font-size:   0.72rem;
+  color:       var(--dim);
+  min-width:   28px;
+  text-align:  right;
+}
+
+
+/* ── DTI display row ────────────────────────────────── */
+
+.dti-row {
+  display:         flex;
+  justify-content: space-between;
+  align-items:     center;
+  padding:         13px 0;
+  border-top:      1px solid var(--border);
+  border-bottom:   1px solid var(--border);
+}
+
+.dti-name {
+  font-size:   0.82rem;
+  color:       var(--muted);
+  font-weight: 500;
+}
+
+.dti-hint-text {
+  font-size:  0.70rem;
+  color:      var(--dim);
+  margin-top: 2px;
+}
+
+.dti-val {
+  font-family: 'DM Mono', monospace;
+  font-size:   1.05rem;
+  font-weight: 500;
+}
+
+
+/* ── Tips ───────────────────────────────────────────── */
+
+.tip {
+  background:    rgba(255, 255, 255, 0.025);
+  border-left:   3px solid var(--gold);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding:       11px 13px;
+  font-size:     0.79rem;
+  color:         var(--muted);
+  line-height:   1.6;
+  margin-bottom: 8px;
+}
+
+
+/* ── EMI Table ──────────────────────────────────────── */
+
+.emi-table {
+  margin-bottom: 6px;
+}
+
+.emi-row {
+  display:         flex;
+  justify-content: space-between;
+  align-items:     center;
+  padding:         12px 0;
+  border-bottom:   1px solid var(--border);
+}
+
+.emi-row:last-child {
+  border-bottom: none;
+}
+
+.emi-label {
+  font-size: 0.83rem;
+  color:     var(--muted);
+}
+
+.emi-value {
+  font-family: 'DM Mono', monospace;
+  font-size:   0.95rem;
+  color:       var(--text);
+}
+
+.emi-value.big  { font-size: 1.5rem; }
+.emi-value.gold { color: var(--gold2); }
+.emi-value.red  { color: var(--red);  }
+.emi-value.teal { color: var(--teal); }
+
+
+/* ── Donut Chart ────────────────────────────────────── */
+
+.donut-wrap {
+  display:        flex;
+  flex-direction: column;
+  align-items:    center;
+  gap:            14px;
+  padding:        18px 0 4px;
+}
+
+.donut-svg {
+  width:     130px;
+  height:    130px;
+  transform: rotate(-90deg);
+}
+
+.donut-track {
+  fill:         none;
+  stroke:       rgba(255, 255, 255, 0.05);
+  stroke-width: 26;
+}
+
+.donut-principal {
+  fill:              none;
+  stroke:            var(--green);
+  stroke-width:      26;
+  stroke-dasharray:  364;
+  stroke-dashoffset: 0;
+  transition:        stroke-dashoffset 0.8s ease;
+}
+
+.donut-interest {
+  fill:              none;
+  stroke:            var(--red);
+  stroke-width:      26;
+  stroke-dasharray:  364;
+  stroke-dashoffset: 364;
+  transition:        stroke-dashoffset 0.8s ease;
+}
+
+.donut-legend {
+  display:  flex;
+  gap:      20px;
+  font-size: 0.79rem;
+}
+
+.legend-item {
+  display:     flex;
+  align-items: center;
+  gap:         7px;
+  color:       var(--muted);
+}
+
+.dot {
+  width:         9px;
+  height:        9px;
+  border-radius: 50%;
+}
+
+.green-dot { background: var(--green); }
+.red-dot   { background: var(--red);   }
+
+
+/* ── Amortization Table ─────────────────────────────── */
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+table {
+  width:           100%;
+  border-collapse: collapse;
+  font-size:       0.80rem;
+}
+
+th {
+  padding:        11px 14px;
+  text-align:     left;
+  font-size:      0.70rem;
+  font-weight:    600;
+  color:          var(--dim);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border-bottom:  1px solid var(--border);
+}
+
+td {
+  padding:       10px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  font-family:   'DM Mono', monospace;
+  color:         var(--muted);
+}
+
+tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+td.col-green { color: rgba(52,  211, 153, 0.85); }
+td.col-red   { color: rgba(248, 113, 113, 0.80); }
+
+
+/* ── Animation ──────────────────────────────────────── */
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+
+/* ── Responsive ─────────────────────────────────────── */
+
+@media (max-width: 960px) {
+  nav { padding: 14px 20px; }
+
+  .two-col {
+    grid-template-columns: 1fr;
+  }
+
+  .result-panel {
+    position: static;
+  }
+
+  .row2 {
+    grid-template-columns: 1fr;
+  }
+}
