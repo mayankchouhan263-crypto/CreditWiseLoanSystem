@@ -33,3 +33,7 @@ Desktop.ini
 
 # Anaconda
 .conda/
+
+# Large data files
+ML/Data/*.csv
+*.csv
