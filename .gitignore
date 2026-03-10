@@ -15,10 +15,6 @@ build/
 local_settings.py
 db.sqlite3
 
-# Model files (large binary files — optional to exclude)
-model/loan_model.pkl
-model/scaler.pkl
-
 # Environment
 .env
 venv/
